@@ -8,7 +8,9 @@ import { motion } from "framer-motion";
 import { signOut } from "@/lib/auth-client";
 import {
   LayoutDashboard, User, Wrench, FolderOpen, MessageSquare,
-  Users, LogOut, Menu, X, Code2, ExternalLink
+  Users, LogOut, Menu, X, Code2, ExternalLink,
+  TrendingUp,
+  Shield
 } from "lucide-react";
 
 const navItems = [
@@ -19,6 +21,8 @@ const navItems = [
   { href: "/admin/projects", icon: <FolderOpen className="w-5 h-5" />, label: "Projects" },
   { href: "/admin/messages", icon: <MessageSquare className="w-5 h-5" />, label: "Messages" },
   { href: "/admin/users", icon: <Users className="w-5 h-5" />, label: "Users" },
+  { href: "/admin/analytics", icon: <TrendingUp className="w-5 h-5" />, label: "Analytics" },
+  { href: "/admin/sessions", icon: <Shield className="w-5 h-5" />, label: "Sessions" },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -68,11 +72,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               key={item.href}
               href={item.href}
               onClick={() => setSidebarOpen(false)}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-sm font-medium ${
-                pathname === item.href
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-sm font-medium ${pathname === item.href
                   ? "bg-primary/10 text-primary border border-primary/20"
                   : "text-base-content/70 hover:bg-base-200 hover:text-base-content"
-              }`}
+                }`}
             >
               {item.icon}
               {item.label}
