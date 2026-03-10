@@ -150,3 +150,23 @@ model PageView {
   @@index([device])
   @@index([country])
 }
+
+model Blog {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  excerpt     String    @db.Text
+  content     String    @db.Text
+  imageUrl    String?
+  tags        String[]
+  category    String    @default("General")
+  status      String    @default("draft") // draft | published
+  featured    Boolean   @default(false)
+  views       Int       @default(0)
+  readTime    Int       @default(0) // minutes
+  authorName  String    @default("Sopon Islam")
+  authorImage String?
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}

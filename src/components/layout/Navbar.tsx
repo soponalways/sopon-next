@@ -4,14 +4,19 @@ import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
 import { Moon, Sun, Menu, X, Code2 } from "lucide-react";
 import Link from "next/link";
-import { useSession, signOut } from "@/lib/auth-client";
+// import { useSession, signOut } from "@/lib/auth-client";
+// pathname based active for non-scroll routes
+import { usePathname } from "next/navigation";
+import NavbarAuth from "./NavbarAuth";
+import NavbarMobileAuth from "./NavbarMobileAuth";
 
 const navLinks = [
-  { href: "#home", label: "Home" },
-  { href: "#about", label: "About" },
-  { href: "#skills", label: "Skills" },
-  { href: "#projects", label: "Projects" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#home", label: "Home" },
+  { href: "/#about", label: "About" },
+  { href: "/#skills", label: "Skills" },
+  { href: "/#projects", label: "Projects" },
+  { href: "/blogs", label: "Blogs" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 export default function Navbar() {
@@ -20,7 +25,8 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
-  const { data: session } = useSession();
+  const pathname = usePathname();
+  // const { data: session } = useSession();
 
   useEffect(() => {
     setMounted(true);
@@ -39,16 +45,22 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const isActive = (link: { href: string }) => {
+    if (link.href.startsWith("/")) {
+      return pathname.startsWith(link.href);
+    }
+    return activeSection === link.href.slice(1);
+  };
+
   return (
     <motion.nav
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-base-100/80 backdrop-blur-xl border-b border-base-300/50 shadow-lg"
-          : "bg-transparent"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
+        ? "bg-base-100/80 backdrop-blur-xl border-b border-base-300/50 shadow-lg"
+        : "bg-transparent"
+        }`}
     >
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
@@ -69,13 +81,12 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${
-                  activeSection === link.href.slice(1)
-                    ? "text-primary"
-                    : "text-base-content/70 hover:text-base-content"
-                }`}
+                className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 ${isActive(link)
+                  ? "text-primary"
+                  : "text-base-content/70 hover:text-base-content"
+                  }`}
               >
-                {activeSection === link.href.slice(1) && (
+                {isActive(link) && (
                   <motion.span
                     layoutId="nav-indicator"
                     className="absolute inset-0 bg-primary/10 rounded-lg border border-primary/20"
@@ -108,7 +119,7 @@ export default function Navbar() {
               </button>
             )}
 
-            {session?.user ? (
+            {/* {session?.user ? (
               <div className="dropdown dropdown-end hidden md:block">
                 <div tabIndex={0} className="avatar cursor-pointer">
                   <div className="w-9 rounded-full ring-2 ring-primary ring-offset-2 ring-offset-base-100">
@@ -127,7 +138,8 @@ export default function Navbar() {
               <Link href="/auth/login" className="btn btn-primary btn-sm rounded-xl hidden md:flex gap-2">
                 Sign In
               </Link>
-            )}
+            )} */}
+            <NavbarAuth></NavbarAuth>
 
             {/* Mobile Menu */}
             <button
@@ -160,17 +172,16 @@ export default function Navbar() {
                   <Link
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className={`block px-4 py-3 rounded-xl font-medium transition-all ${
-                      activeSection === link.href.slice(1)
-                        ? "bg-primary/10 text-primary border border-primary/20"
-                        : "hover:bg-base-200"
-                    }`}
+                    className={`block px-4 py-3 rounded-xl font-medium transition-all ${isActive(link)
+                      ? "bg-primary/10 text-primary border border-primary/20"
+                      : "hover:bg-base-200"
+                      }`}
                   >
                     {link.label}
                   </Link>
                 </motion.div>
               ))}
-              {session?.user ? (
+              {/* {session?.user ? (
                 <>
                   {(session.user as any).role === "admin" && (
                     <Link href="/admin" onClick={() => setMobileOpen(false)} className="btn btn-outline btn-sm rounded-xl">
@@ -183,7 +194,9 @@ export default function Navbar() {
                 <Link href="/auth/login" onClick={() => setMobileOpen(false)} className="btn btn-primary btn-sm rounded-xl">
                   Sign In
                 </Link>
-              )}
+              )} */}
+
+              <NavbarMobileAuth onClose={() => setMobileOpen(false)} />
             </div>
           </motion.div>
         )}

@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { prisma } from "@/lib/prisma";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
+// import Navbar from "@/components/layout/Navbar";
+// import Footer from "@/components/layout/Footer";
 import HeroSection from "@/components/sections/HeroSection";
 import AboutSection from "@/components/sections/AboutSection";
 import SkillsSection from "@/components/sections/SkillsSection";
@@ -35,13 +35,11 @@ export default async function HomePage() {
 
   return (
     <main className="min-h-screen">
-      <Navbar />
       <HeroSection data={hero} />
       <AboutSection data={about} />
       <SkillsSection skills={skills} />
       <ProjectsSection projects={projects} />
       <ContactSection />
-      <Footer />
     </main>
   );
 }
