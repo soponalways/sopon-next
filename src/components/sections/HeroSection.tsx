@@ -190,7 +190,7 @@ export default function HeroSection({ data }: { data: any | null }) {
                 <img
                   src={hero.imageUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(hero.name)}&size=400&background=6366f1&color=fff&bold=true&font-size=0.35`}
                   alt={hero.name}
-                  className="w-full h-full object-cover animate-float"
+                  className="w-full h-full object-cover hover-3d hover:scale-150 absolute hover:-top-5 z-auto transition-transform ease-in-out duration-700 hover:animate-float "
                 />
               </div>
 

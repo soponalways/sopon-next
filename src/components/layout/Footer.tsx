@@ -61,9 +61,9 @@ export default function Footer() {
         </div>
         <div className="border-t border-base-300/50 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-sm text-base-content/50 flex items-center gap-1">
-            © {new Date().getFullYear()} Sopon Islam. Made with <Heart className="w-4 h-4 text-error fill-error" /> in Bangladesh
+            © {new Date().getFullYear()} Sopon Islam | Copyright <span className="text-primary">01884953018</span>
           </p>
-          <p className="text-xs text-base-content/40 font-mono">v2.0.0 — Next.js + PostgreSQL</p>
+          <p className="text-xs text-base-content/40 font-mono">v2.0.0 </p>
         </div>
       </div>
     </footer>

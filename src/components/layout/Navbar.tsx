@@ -32,11 +32,15 @@ export default function Navbar() {
     setMounted(true);
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
-      const sections = ["home", "about", "skills", "projects", "contact"];
+      const sections = ["home", "about", "skills", "projects", "blogs", "contact"];
       for (const id of sections.reverse()) {
         const el = document.getElementById(id);
         if (el && window.scrollY >= el.offsetTop - 100) {
           setActiveSection(id);
+          break;
+        }
+        if (pathname === "/blogs") {
+          setActiveSection("blogs");
           break;
         }
       }
@@ -45,12 +49,22 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const isActive = (link: { href: string }) => {
-    if (link.href.startsWith("/")) {
-      return pathname.startsWith(link.href);
+  // const isActive = (link: { href: string, label: string }) => {
+  //   if (link.href.startsWith("/")) {
+  //     // console.log(`This is Rokeya ${pathname.startsWith(link.href), pathname}`);
+  //     return pathname.startsWith(link.href);
+  //   }
+  //   return activeSection === link.href.slice(1);
+  // };
+  const isActive = (link: { href: string; label: string }) => {
+    if (link.href.includes("#")) {
+      const section = link.href.split("#")[1];
+      return activeSection === section;
     }
-    return activeSection === link.href.slice(1);
+
+    return pathname === link.href;
   };
+  // console.log(`Hi this is value ${!isActive({ href: "/#contact", label: "Contact" })}`);
 
   return (
     <motion.nav
