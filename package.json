@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build --debug-prerender",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "db:migrate": "prisma migrate dev",
@@ -13,7 +13,8 @@
     "db:studio": "prisma studio",
     "db:seed": "npx tsx scripts/seed.ts",
     "create-admin": "npx tsx scripts/create-admin.ts",
-    "setup": "npm run db:push && npm run db:seed && npm run create-admin"
+    "setup": "npm run db:push && npm run db:seed && npm run create-admin",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

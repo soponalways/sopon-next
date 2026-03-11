@@ -139,7 +139,7 @@ export default function AdminDashboard() {
                       <p className="font-medium text-sm truncate">{msg.name}</p>
                       <p className="text-xs text-base-content/50 truncate">{msg.subject}</p>
                     </div>
-                    {!msg.read && <span className="badge badge-primary badge-xs flex-shrink-0">new</span>}
+                    {!msg.read && <span className="badge badge-primary badge-xs shrink-0">new</span>}
                   </div>
                 </div>
               ))}
