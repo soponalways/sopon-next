@@ -1,9 +1,11 @@
 "use client";
 import { useSession, signOut } from "@/lib/auth-client";
 import Link from "next/link";
+import { useAppSession } from "../providers/SessionProvider";
 
 export default function NavbarAuth() {
-    const { data: session } = useSession();
+    // const { data: session } = useSession();
+    const session = useAppSession();
 
     if (!session?.user) {
         return (

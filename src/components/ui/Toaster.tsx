@@ -7,7 +7,7 @@ type ToastType = "success" | "error" | "info";
 interface Toast { id: string; message: string; type: ToastType; }
 
 const ToastContext = createContext<{ toast: (msg: string, type?: ToastType) => void }>({
-  toast: () => {},
+  toast: () => { },
 });
 
 export function useToast() {
@@ -36,7 +36,7 @@ export function Toaster() {
 
   return (
     <ToastContext.Provider value={{ toast }}>
-      <div className="fixed bottom-6 right-6 z-[9999] flex flex-col gap-3">
+      <div className="fixed bottom-6 right-6 z-9999 flex flex-col gap-3">
         <AnimatePresence>
           {toasts.map((t) => (
             <motion.div

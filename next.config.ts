@@ -23,6 +23,12 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ["better-auth"],
   },
+  // typescript: {
+  //   ignoreBuildErrors: true, // ← TypeScript errors ignore করবে
+  // },
+  // eslint: {
+  //   ignoreDuringBuilds: true, // ← ESLint errors ও ignore করবে
+  // },
 
   webpack: (config, { isServer }) => {
     if (isServer) {

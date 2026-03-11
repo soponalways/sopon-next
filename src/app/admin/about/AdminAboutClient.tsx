@@ -1,22 +1,12 @@
-"use client"
-export const dynamic = "force-dynamic";
-import MotionDiv, { MotionForm } from "@/components/MotionDiv";
-// import Dynamic from 'next/dynamic';
-
-// const AdminAboutClient = Dynamic(() => import('./AdminAboutClient'), { ssr: false });
-
-// export default function AdminAboutPage() {
-//   return <AdminAboutClient />;
-// }
-import { toast } from "@/components/ui/Toaster";
-import { BookOpen, Save } from "lucide-react";
+"use client";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+// import { motion } from "framer-motion";
+import MotionDiv, { MotionForm } from "@/components/MotionDiv";
+import { Save, BookOpen } from "lucide-react";
+import { toast } from "@/components/ui/Toaster";
 
-export default function AdminAboutPage() {
-  // return <>
-  //   <AdminAboutClient></AdminAboutClient>
-  // </>
+export default function AdminAboutClient() {
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const { register, handleSubmit, reset } = useForm<{ title: string; description: string; imageUrl?: string }>();
@@ -57,14 +47,15 @@ export default function AdminAboutPage() {
         <div className="form-control">
           <label className="label"><span className="label-text font-medium">Description</span></label>
           <p className="text-xs text-base-content/50 mb-2">Use double newlines (Enter twice) to create paragraphs</p>
-          <textarea {...register("description", { required: true })} rows={12} className="textarea textarea-bordered rounded-xl resize-none font-mono text-sm" />
+          <textarea {...register("description", { required: true })} rows={8} placeholder="Tell us about yourself..." className="textarea textarea-bordered rounded-xl resize-none" />
         </div>
         <div className="form-control">
-          <label className="label"><span className="label-text font-medium">Profile Image URL (optional)</span></label>
-          <input {...register("imageUrl")} placeholder="https://..." className="input input-bordered rounded-xl" />
+          <label className="label"><span className="label-text font-medium">Image URL (Optional)</span></label>
+          <input {...register("imageUrl")} placeholder="https://example.com/image.jpg" className="input input-bordered rounded-xl" />
         </div>
-        <button type="submit" disabled={loading} className="btn btn-primary w-full rounded-xl gap-2 shadow-lg">
-          {loading ? <><span className="loading loading-spinner loading-sm" /> Saving...</> : <><Save className="w-4 h-4" /> Save Changes</>}
+        <button type="submit" disabled={loading} className="btn btn-primary btn-block rounded-xl">
+          {loading ? <span className="loading loading-spinner loading-sm" /> : <Save className="w-4 h-4" />}
+          {loading ? "Saving..." : "Save Changes"}
         </button>
       </MotionForm>
     </div>

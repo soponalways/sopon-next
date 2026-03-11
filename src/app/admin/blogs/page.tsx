@@ -97,12 +97,12 @@ export default function AdminBlogsPage() {
                             <div className="flex items-start gap-4">
                                 {blog.imageUrl && (
                                     <img src={blog.imageUrl} alt={blog.title}
-                                        className="w-20 h-14 object-cover rounded-xl flex-shrink-0 hidden sm:block" />
+                                        className="w-20 h-14 object-cover rounded-xl hrink-0 hidden sm:block" />
                                 )}
                                 <div className="flex-1 min-w-0">
                                     <div className="flex items-center gap-2 flex-wrap mb-1">
                                         <h3 className="font-semibold truncate">{blog.title}</h3>
-                                        {blog.featured && <Star className="w-4 h-4 text-warning fill-warning flex-shrink-0" />}
+                                        {blog.featured && <Star className="w-4 h-4 text-warning fill-warning hrink-0" />}
                                         <span className={`badge badge-xs ${blog.status === "published" ? "badge-success" : "badge-ghost"}`}>
                                             {blog.status}
                                         </span>
@@ -115,7 +115,7 @@ export default function AdminBlogsPage() {
                                         {blog.tags?.slice(0, 2).map((t: string) => <span key={t}>#{t}</span>)}
                                     </div>
                                 </div>
-                                <div className="flex gap-1.5 flex-shrink-0 flex-col sm:flex-row">
+                                <div className="flex gap-1.5 shrink-0 flex-col sm:flex-row">
                                     <button
                                         onClick={() => togglePublish(blog)}
                                         className={`btn btn-xs rounded-lg ${blog.status === "published" ? "btn-ghost text-warning" : "btn-success btn-outline"}`}

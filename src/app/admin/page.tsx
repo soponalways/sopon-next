@@ -33,7 +33,7 @@ export default function AdminDashboard() {
           unread: msgArr.filter((m: any) => !m.read).length,
         });
         setRecentMessages(msgArr.slice(0, 5));
-      } catch {}
+      } catch { }
       setLoading(false);
     };
     fetchData();

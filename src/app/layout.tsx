@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Toaster } from "@/components/ui/Toaster";
 import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import VisitTracker from "@/components/analytics/VisitTracker";
+import { SessionProvider } from "@/components/providers/SessionProvider";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -71,10 +72,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning>
       <body className={`${spaceGrotesk.variable} ${syne.variable} ${jetbrains.variable} font-sans antialiased`}>
         <ThemeProvider>
-          <GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || ""} />
-          <VisitTracker />
-          {children}
-          <Toaster />
+          <SessionProvider>
+            <GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || ""} />
+            <VisitTracker />
+            {children}
+            <Toaster />
+          </SessionProvider>
         </ThemeProvider>
       </body>
     </html>
