@@ -19,6 +19,7 @@
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
     "@prisma/client": "^6.9.0",
+    "@upstash/redis": "^1.37.0",
     "better-auth": "^1.2.8",
     "clsx": "^2.1.1",
     "daisyui": "^5.0.0",

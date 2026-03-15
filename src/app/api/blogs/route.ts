@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { revalidateBlogCache } from "@/lib/revalidate";
+import { revalidateBlogCache, revalidateBlogPost } from "@/lib/revalidate";
 
 function generateSlug(title: string): string {
     return title
@@ -94,7 +94,7 @@ export async function GET(req: Request) {
         return NextResponse.json(
             { blogs, total, page, limit, totalPages: Math.ceil(total / limit) },
             {
-                headers: { "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400" },
+                headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=86400" },
             }
         );
     } catch (err) {
@@ -144,6 +144,7 @@ export async function POST(req: Request) {
         });
 
         await revalidateBlogCache();
+        await revalidateBlogPost(blog.slug);
 
         return NextResponse.json(blog, { status: 201 });
     } catch (err) {

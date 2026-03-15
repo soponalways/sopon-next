@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { Metadata } from "next";
 import BlogsClient from "./BlogsClient";
 
-export const revalidate = 3600; // 1 hour ISR
+export const revalidate = 300; // 1 hour ISR
 
 export const metadata: Metadata = {
     title: "Blog | Sopon Islam",
@@ -26,8 +26,8 @@ async function getInitialBlogs() {
     try {
         const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
         const [blogsRes, metaRes] = await Promise.all([
-            fetch(`${baseUrl}/api/blogs?limit=9`, { next: { tags: ["blogs"], revalidate: 3600 } }),
-            fetch(`${baseUrl}/api/blogs/meta`, { next: { tags: ["blogs"], revalidate: 3600 } }),
+            fetch(`${baseUrl}/api/blogs?limit=9`, { next: { tags: ["blogs"], revalidate: 300 } }),
+            fetch(`${baseUrl}/api/blogs/meta`, { next: { tags: ["blogs"], revalidate: 300 } }),
         ]);
         const [blogsData, metaData] = await Promise.all([blogsRes.json(), metaRes.json()]);
         return { blogsData, metaData };

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowLeft, Clock, Eye, Calendar, Tag, User, Share2, Twitter, Linkedin, Link2 } from "lucide-react";
 import BlogCard from "@/components/blog/BlogCard";
 import { toast } from "@/components/ui/Toaster";
+import { useEffect } from "react";
 
 export default function BlogDetailClient({ blog, related }: { blog: any; related: any[] }) {
     const handleShare = async (platform: string) => {
@@ -21,6 +22,25 @@ export default function BlogDetailClient({ blog, related }: { blog: any; related
     };
 
     const date = blog.publishedAt || blog.createdAt;
+    // useEffect(() => {
+    //     fetch("/api/blogs/view", {
+    //         method: "POST",
+    //         body: JSON.stringify({ slug: blog.slug }),
+    //     });
+    // }, []);
+
+    useEffect(() => {
+        const viewed = sessionStorage.getItem(`viewed-${blog.slug}`);
+
+        if (!viewed) {
+            fetch("/api/blogs/view", {
+                method: "POST",
+                body: JSON.stringify({ slug: blog.slug }),
+            });
+
+            sessionStorage.setItem(`viewed-${blog.slug}`, "true");
+        }
+    }, []);
 
     return (
         <article className="min-h-screen bg-base-100">

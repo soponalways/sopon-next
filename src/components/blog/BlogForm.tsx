@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { Save, Eye, X, Plus } from "lucide-react";
 import { toast } from "@/components/ui/Toaster";
 import ImageUploader from "./ImageUploader";
+import { revalidateBlogCache } from "@/lib/revalidate";
 
 const schema = z.object({
     title: z.string().min(5, "Title must be at least 5 chars"),
@@ -73,6 +74,7 @@ export default function BlogForm({ initialData, mode }: BlogFormProps) {
 
             if (res.ok) {
                 toast(mode === "create" ? "Blog created! 🎉" : "Blog updated! ✨", "success");
+                await revalidateBlogCache();
                 router.push("/admin/blogs");
             } else {
                 const err = await res.json();

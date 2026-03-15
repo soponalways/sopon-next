@@ -34,7 +34,7 @@ export async function GET(
         }
 
         return NextResponse.json(blog, {
-            headers: { "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400" },
+            headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=86400" },
         });
     } catch (err) {
         console.error(err);
@@ -82,6 +82,7 @@ export async function PUT(
         });
 
         await revalidateBlogPost(slug);
+        await revalidateBlogCache();
 
         return NextResponse.json(updated);
     } catch (err) {

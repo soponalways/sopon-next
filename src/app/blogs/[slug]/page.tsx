@@ -2,23 +2,11 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import BlogDetailClient from "./BlogDetailClient";
+import { redis } from "@/lib/redis";
 
-export const revalidate = 3600;
+export const revalidate = 300;
 
 interface Props { params: Promise<{ slug: string }> }
-
-// Generate static params for published blogs
-export async function generateStaticParams() {
-    try {
-        const blogs = await prisma.blog.findMany({
-            where: { status: "published" },
-            select: { slug: true },
-        });
-        return blogs.map((b) => ({ slug: b.slug }));
-    } catch {
-        return [];
-    }
-}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
@@ -58,12 +46,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogDetailPage({ params }: Props) {
     const { slug } = await params;
+    const lastSync = await redis.get("views:last-sync");
+
+    const now = Date.now();
+
+    if (!lastSync || now - Number(lastSync) > 60000) {
+        await fetch("/api/cron/sync-views");
+        await redis.set("views:last-sync", now);
+    }
     try {
         const blog = await prisma.blog.findUnique({
             where: { slug },
-            next: { tags: [`blog-${slug}`], revalidate: 3600 },
         } as any);
-
+        console.log({ blog });
         if (!blog || blog.status !== "published") notFound();
 
         // Get related blogs
@@ -82,7 +77,8 @@ export default async function BlogDetailPage({ params }: Props) {
         });
 
         return <BlogDetailClient blog={blog} related={related} />;
-    } catch {
+    } catch (err: any) {
+        console.log({ errorMessage: err.message, err });
         notFound();
     }
 }
