@@ -1,0 +1,16 @@
+name: Sync Blog Views
+
+# Cron schedule (every 5 minutes)
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch: # allows manual trigger
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Redis → DB sync
+        run: |
+          curl -X GET https://sopon-dev.vercel.app/api/cron/sync-views
