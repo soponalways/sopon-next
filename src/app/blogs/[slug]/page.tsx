@@ -2,7 +2,6 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import BlogDetailClient from "./BlogDetailClient";
-import { redis } from "@/lib/redis";
 
 export const revalidate = 300;
 
@@ -46,14 +45,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogDetailPage({ params }: Props) {
     const { slug } = await params;
-    const lastSync = await redis.get("views:last-sync");
-
-    const now = Date.now();
-
-    if (!lastSync || now - Number(lastSync) > 60000) {
-        await fetch("/api/cron/sync-views");
-        await redis.set("views:last-sync", now);
-    }
     try {
         const blog = await prisma.blog.findUnique({
             where: { slug },
